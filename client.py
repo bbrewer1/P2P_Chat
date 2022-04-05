@@ -26,6 +26,7 @@ while True:
     condition will evaluate as true"""
     read_sockets,write_socket,error_socket = select.select(sockets_list,[],[])
 
+<<<<<<< HEAD
     for socks in read_sockets:
         if socks == server:
             message = socks.recv(2048)
@@ -39,3 +40,16 @@ while True:
             sys.stdout.write(message)
             sys.stdout.flush()
 server.close()
+=======
+	for socks in read_sockets:
+		if socks == server:
+			message = socks.recv(2048)
+			print (message.decode('utf-8'))
+		else:
+			message = sys.stdin.readline()
+			server.send(message.encode())
+			sys.stdout.write("<You>")
+			sys.stdout.write(message)
+			sys.stdout.flush()
+server.close()
+>>>>>>> e88411fb6dca28e98a1c4fe5a2a06b6556fa915c
