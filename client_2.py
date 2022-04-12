@@ -16,11 +16,18 @@ server_s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server_s.bind((IP_address, 8082))
 server_s.listen(100)
-time.sleep(3)
+# time.sleep(5)
 
 # Client
-server_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_c.connect((IP_address, 8081))
+connected_bool = False
+while not connected_bool:
+  try:
+    server_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_c.connect((IP_address, 8081))
+    connected_bool = True
+  except:
+    pass
+
 
 def clientthread(conn_s, addr):
   conn_s.send("Welcome to the chatroom".encode('utf-8'))
