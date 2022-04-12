@@ -5,10 +5,11 @@ import sys
 from _thread import *
 import time
 
-if len(sys.argv) != 2:
-  print ("Correct usage: script, IP address")
+if len(sys.argv) != 3:
+  print ("Correct usage: script, IP address, Username")
   exit()
 IP_address = str(sys.argv[1])
+Username = str(sys.argv[2])
 
 # Server
 server_s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -22,7 +23,7 @@ server_c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_c.connect((IP_address, 8081))
 
 def clientthread(conn_s, addr):
-  conn_s.send("Welcome to the chatroom - Client 1".encode('utf-8'))
+  conn_s.send("Welcome to the chatroom".encode('utf-8'))
 
   while True:
     # CLIENT SIDE
@@ -33,12 +34,14 @@ def clientthread(conn_s, addr):
     for socks in read_sockets:
       if socks == server_c:
         message = socks.recv(2048)
-        print("<" + addr[0] + "> " + message.decode('utf-8'))
+        print(message.decode('utf-8'))
       else:
-        message = sys.stdin.readline()
-        conn_s.send(message.encode('utf-8'))
-        sys.stdout.write("<Client2>")
-        sys.stdout.write(message)
+        message_1 = sys.stdin.readline()
+        message_2 = "<" + Username + " (YOU)" + "> " + message_1
+        message_3 = "<" + Username + "> " + message_1
+        message_3 = message_3.encode('utf-8')
+        conn_s.send(message_3)
+        sys.stdout.write(message_2)
         sys.stdout.flush()
 
 while True:
