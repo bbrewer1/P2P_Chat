@@ -42,6 +42,8 @@ def clientthread(conn_s, addr):
       if socks == server_c:
         message = socks.recv(2048)
         print(message.decode('utf-8'))
+        with open('client_2_chatlog.txt', 'a') as f:
+          f.write(message.decode('utf-8') + "\n")
       else:
         message_1 = sys.stdin.readline()
         message_2 = "<" + Username + " (YOU)" + "> " + message_1
@@ -50,6 +52,8 @@ def clientthread(conn_s, addr):
         conn_s.send(message_3)
         sys.stdout.write(message_2)
         sys.stdout.flush()
+        with open('client_2_chatlog.txt', 'a') as f:
+          f.write(message_2 + "\n")
 
 while True:
   conn, addr = server_s.accept()
